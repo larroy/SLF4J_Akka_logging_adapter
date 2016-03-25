@@ -19,10 +19,17 @@ trait HasLogger {
   def log: Logger
 }
 
+// Base can be used both from Akka and outside akka without modifying
+// the log statements
 trait Base extends HasLogger {
   def f(): Unit = {
     log.debug("Base.f called")
   }
+}
+
+case class D() extends Base with Logging {
+  log.debug("D")
+  f()
 }
 
 class Act extends Actor with Base with ActorLoggingSlf4j {
